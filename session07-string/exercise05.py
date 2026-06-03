@@ -41,7 +41,6 @@ while True:
                     
                 print(f"{prod_type:<10} | {country:<10} | {full_year:<8} | {serial:<10} | {status}")
         
-        # In tổng kết
         print("-" * 65)
         print(f"Đã giải mã thành công {valid_count} sản phẩm hợp lệ / Tổng số {total_products} sản phẩm.")
         
