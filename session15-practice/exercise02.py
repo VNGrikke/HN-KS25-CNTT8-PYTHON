@@ -77,9 +77,7 @@ def main():
             case "2":
                 print("--- NẠP TIỀN ---")
 
-                amount_str = input(
-                    "Nhập số tiền muốn nạp: "
-                ).strip()
+                amount_str = input("Nhập số tiền muốn nạp: ").strip()
 
                 if not amount_str.isdigit():
                     print("Số tiền không hợp lệ")
@@ -90,8 +88,7 @@ def main():
                 if deposit_money(amount):
                     print(
                         f"Giao dịch thành công! "
-                        f"Số dư tài khoản hiện tại: "
-                        f"{user_account_balance:,} VND."
+                        f"Số dư tài khoản hiện tại: {user_account_balance:,} VND."
                     )
 
             case "3":
@@ -113,21 +110,13 @@ def main():
                     print("Số tiền không hợp lệ")
 
                 elif result == "INVALID_MULTIPLE":
-                    print(
-                        "Số tiền rút phải là bội số của 50,000"
-                    )
+                    print("Số tiền rút phải là bội số của 50,000")
 
                 elif result == "INSUFFICIENT_FUNDS":
-                    print(
-                        "Giao dịch thất bại: "
-                        "Tài khoản không đủ số dư."
-                    )
+                    print("Giao dịch thất bại: Tài khoản không đủ số dư.")
 
                 elif result == "ATM_OUT_OF_CASH":
-                    print(
-                        "Giao dịch thất bại: "
-                        "Máy ATM không đủ tiền mặt để phục vụ."
-                    )
+                    print("Giao dịch thất bại: Máy ATM không đủ tiền mặt để phục vụ.")
 
                 elif result == "OK":
                     fee = 1100
@@ -135,22 +124,11 @@ def main():
 
                     print("Giao dịch đang xử lý...")
 
-                    execute_withdrawal(
-                        total_deduction,
-                        amount
-                    )
+                    execute_withdrawal(total_deduction,amount)
 
-                    print(
-                        f"Phí giao dịch: {fee:,} VND"
-                    )
-                    print(
-                        f"Bạn đã rút thành công "
-                        f"{amount:,} VND."
-                    )
-                    print(
-                        f"Số dư tài khoản còn lại: "
-                        f"{user_account_balance:,} VND."
-                    )
+                    print(f"Phí giao dịch: {fee:,} VND")
+                    print(f"Bạn đã rút thành công \n" f"{amount:,} VND.")
+                    print(f"Số dư tài khoản còn lại: {user_account_balance:,} VND.")
 
             case "4":
                 print(
