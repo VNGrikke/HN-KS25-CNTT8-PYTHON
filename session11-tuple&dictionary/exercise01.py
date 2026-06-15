@@ -26,16 +26,12 @@ def add_reward_points(current_points, points_earned):
 """
 
 
-# Tong diem hien tai cua khach hang
 total_points = 100
 
-# Ham cong diem thuong
 def add_reward_points(current_points, points_earned):
     print(f"Da cong them {points_earned} diem.")
     return current_points + points_earned
 
-# Khach hang duoc thuong 50 diem
 total_points = add_reward_points(total_points, 50)
 
-# In tong diem hien tai
 print(f"Tong diem hien tai cua khach hang: {total_points}")

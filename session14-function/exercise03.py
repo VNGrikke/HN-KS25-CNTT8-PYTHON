@@ -1,132 +1,186 @@
-product_list = [
+students = [
     {
-        "product_id": "SP001",
-        "product_name": "Ao polo nam",
-        "price": 299000,
-        "quantity": 20
+        "student_id": "RA001",
+        "name": "Nguyễn Văn A",
+        "math_score": 8.5,
+        "english_score": 7.0
     },
     {
-        "product_id": "SP002",
-        "product_name": "Quan kaki nam",
-        "price": 399000,
-        "quantity": 15
-    },
-    {
-        "product_id": "SP003",
-        "product_name": "Vay cong so nu",
-        "price": 459000,
-        "quantity": 10
+        "student_id": "RA002",
+        "name": "Trần Thị B",
+        "math_score": 9.0,
+        "english_score": 9.5
     }
 ]
 
-while True:
-    print("\n===== HE THONG QUAN LY SAN PHAM YODY =====")
-    print("1. Hien thi danh sach san pham")
-    print("2. Them san pham moi")
-    print("3. Cap nhat thong tin san pham")
-    print("4. Xoa san pham theo ma")
-    print("5. Thoat chuong trinh")
-    
-    choice = input("Vui long nhap lua chon cua ban (1-5): ").strip()
-    
-    match choice:
-        # CHUC NANG 1: Hien thi danh sach
-        case '1':
-            if len(product_list) == 0:
-                print("Danh sach san pham hien dang trong.")
-            else:
-                print("Danh sach san pham hien tai:")
-                for index, product in enumerate(product_list, start=1):
-                    print(f"{index}. Ma SP: {product['product_id']} | Ten: {product['product_name']} | Gia: {product['price']} | So luong: {product['quantity']}")
 
-        # CHUC NANG 2: Them san pham moi
-        case '2':
-            new_id = input("Nhap ma san pham: ").strip().upper()
-            
-            is_exist = any(p["product_id"] == new_id for p in product_list)
-            if is_exist:
-                print("Ma san pham bi trung!")
-                continue
-                
-            new_name = input("Nhap ten san pham: ").strip()
-            
-            price_input = input("Nhap gia san pham: ").strip()
-            quantity_input = input("Nhap so luong san pham: ").strip()
-            
-            if not price_input.isdigit() or int(price_input) <= 0:
-                print("Gia/So luong khong hop le!")
-                continue
-                
-            if not quantity_input.isdigit() or int(quantity_input) <= 0:
-                print("Gia/So luong khong hop le!")
-                continue
-                
-            new_price = int(price_input)
-            new_quantity = int(quantity_input)
-                
-            new_product = {
-                "product_id": new_id,
-                "product_name": new_name,
-                "price": new_price,
-                "quantity": new_quantity
-            }
-            product_list.append(new_product)
-            print("Them san pham thanh cong")
+def validate_score(score_input):
+    try:
+        score = float(score_input)
+        if 0 <= score <= 10:
+            return True
+        return False
+    except:
+        return False
 
-        # CHUC NANG 3: Cap nhat thong tin san pham
-        case '3':
-            update_id = input("Nhap ma san pham can cap nhat: ").strip().upper()
-            
-            product_found = None
-            for product in product_list:
-                if product["product_id"] == update_id:
-                    product_found = product
-                    break
-                    
-            if not product_found:
-                print("Khong tim thay ma san pham can cap nhat!")
-            else:
-                new_name = input(f"Nhap ten san pham moi (Hien tai: {product_found['product_name']}): ").strip()
-                
-                price_input = input(f"Nhap gia san pham moi (Hien tai: {product_found['price']}): ").strip()
-                quantity_input = input(f"Nhap so luong san pham moi (Hien tai: {product_found['quantity']}): ").strip()
-                
-                if not price_input.isdigit() or int(price_input) <= 0:
-                    print("Gia/So luong khong hop le!")
-                    continue
-                    
-                if not quantity_input.isdigit() or int(quantity_input) <= 0:
-                    print("Gia/So luong khong hop le!")
-                    continue
-                    
-                new_price = int(price_input)
-                new_quantity = int(quantity_input)
-                    
-                product_found["product_name"] = new_name
-                product_found["price"] = new_price
-                product_found["quantity"] = new_quantity
-                print("Cap nhat thong tin san pham thanh cong!")
 
-        # CHUC NANG 4: Xoa san pham
-        case '4':
-            delete_id = input("Nhap ma san pham can xoa: ").strip().upper()
-            
-            index_to_delete = -1
-            for i in range(len(product_list)):
-                if product_list[i]["product_id"] == delete_id:
-                    index_to_delete = i
-                    break
-                    
-            if index_to_delete == -1:
-                print("Khong tim thay ma san pham can xoa!")
-            else:
-                deleted_product = product_list.pop(index_to_delete)
-                print(f"Da xoa thanh cong san pham: {deleted_product['product_name']}")
+def find_student_by_id(student_list, student_id):
+    for index, student in enumerate(student_list):
+        if student["student_id"] == student_id:
+            return index
+    return -1
 
-        # CHUC NANG 5: Thoat chuong trinh
-        case '5':
-            print("Thoat chuong trinh.")
+
+def display_students(student_list):
+    if len(student_list) == 0:
+        print("Danh sách học viên hiện đang trống.")
+        return
+
+    for index, student in enumerate(student_list, start=1):
+        print(
+            f"{index}. Mã: {student['student_id']} | "
+            f"Tên: {student['name']} | "
+            f"Toán: {student['math_score']} | "
+            f"Anh: {student['english_score']}"
+        )
+
+
+def add_student(student_list):
+    while True:
+        student_id = input("Nhập mã học viên: ").strip().upper()
+
+        if find_student_by_id(student_list, student_id) != -1:
+            print("Mã học viên đã tồn tại, vui lòng nhập mã khác!")
+        else:
             break
-            
+
+    while True:
+        name = input("Nhập tên học viên: ").strip()
+
+        if name == "":
+            print("Tên học viên không được để trống!")
+        else:
+            name = name.title()
+            break
+
+    while True:
+        math_score = input("Nhập điểm Toán: ")
+
+        if validate_score(math_score):
+            math_score = float(math_score)
+            break
+
+        print("Điểm không hợp lệ, phải là số từ 0 đến 10")
+
+    while True:
+        english_score = input("Nhập điểm Anh: ")
+
+        if validate_score(english_score):
+            english_score = float(english_score)
+            break
+
+        print("Điểm không hợp lệ, phải là số từ 0 đến 10")
+
+    student = {
+        "student_id": student_id,
+        "name": name,
+        "math_score": math_score,
+        "english_score": english_score
+    }
+
+    student_list.append(student)
+    print("Thêm học viên thành công!")
+
+
+def update_score(student_list):
+    student_id = input("Nhập mã học viên cần cập nhật: ").strip().upper()
+
+    index = find_student_by_id(student_list, student_id)
+
+    if index == -1:
+        print(f"Không tìm thấy học viên mang mã {student_id}!")
+        return
+
+    while True:
+        math_score = input("Nhập điểm Toán mới: ")
+
+        if validate_score(math_score):
+            math_score = float(math_score)
+            break
+
+        print("Điểm không hợp lệ, phải là số từ 0 đến 10")
+
+    while True:
+        english_score = input("Nhập điểm Anh mới: ")
+
+        if validate_score(english_score):
+            english_score = float(english_score)
+            break
+
+        print("Điểm không hợp lệ, phải là số từ 0 đến 10")
+
+    student_list[index]["math_score"] = math_score
+    student_list[index]["english_score"] = english_score
+
+    print("Cập nhật điểm thành công!")
+
+
+def get_rank(average_score):
+    if average_score >= 8:
+        return "Giỏi"
+    elif average_score >= 6.5:
+        return "Khá"
+    elif average_score >= 5:
+        return "Trung bình"
+    else:
+        return "Yếu"
+
+
+def evaluate_students(student_list):
+    if len(student_list) == 0:
+        print("Danh sách học viên hiện đang trống.")
+        return
+
+    for student in student_list:
+        average = (student["math_score"] + student["english_score"]) / 2
+        rank = get_rank(average)
+
+        print(
+            f"Mã: {student['student_id']} | "
+            f"Tên: {student['name']} | "
+            f"ĐTB: {average:.2f} | "
+            f"Xếp loại: {rank}"
+        )
+
+
+while True:
+    print("""
+===== HỆ THỐNG QUẢN LÝ ĐIỂM THI RIKKEI ACADEMY =====
+1. Hiển thị danh sách học viên
+2. Thêm học viên mới
+3. Cập nhật điểm thi theo mã học viên
+4. Đánh giá học lực của toàn bộ học viên
+5. Thoát chương trình
+""")
+
+    choice = input("Nhập lựa chọn của bạn (1-5): ").strip()
+
+    match choice:
+        case "1":
+            display_students(students)
+
+        case "2":
+            add_student(students)
+
+        case "3":
+            update_score(students)
+
+        case "4":
+            evaluate_students(students)
+
+        case "5":
+            print("Cảm ơn bạn đã sử dụng hệ thống!")
+            break
+
         case _:
-            print("Lua chon khong hop le, vui long nhap lai!")
+            print("Lựa chọn không hợp lệ, vui lòng nhập lại!")

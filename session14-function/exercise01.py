@@ -27,17 +27,13 @@ def calculate_final_price(price, discount, shipping_fee):
     return total
 
 
-# Đơn hàng mua áo thun
 price = 100000
 discount = 0.1
 shipping_fee = 15000
 
-# Tính tổng tiền đơn hàng
 order_total = calculate_final_price(price, discount, shipping_fee)
 
-# Cộng thêm phí đóng gói
 final_payment = order_total + 5000
 
-# Hiển thị kết quả
 print("Đã tính xong tổng tiền:", order_total)
 print("Khách hàng cần thanh toán:", final_payment)

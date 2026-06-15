@@ -1,132 +1,172 @@
-product_list = [
-    {
-        "product_id": "SP001",
-        "product_name": "Ao polo nam",
-        "price": 299000,
-        "quantity": 20
-    },
-    {
-        "product_id": "SP002",
-        "product_name": "Quan kaki nam",
-        "price": 399000,
-        "quantity": 15
-    },
-    {
-        "product_id": "SP003",
-        "product_name": "Vay cong so nu",
-        "price": 459000,
-        "quantity": 10
-    }
+patients = [
+    ["BN001", "Nguyen Van A", "Nam", "Viem Phoi"],
+    ["BN002", "Tran Thi B", "Nu", "Sot Xuat Huyet"]
 ]
 
-while True:
-    print("\n===== HE THONG QUAN LY SAN PHAM YODY =====")
-    print("1. Hien thi danh sach san pham")
-    print("2. Them san pham moi")
-    print("3. Cap nhat thong tin san pham")
-    print("4. Xoa san pham theo ma")
-    print("5. Thoat chuong trinh")
-    
-    choice = input("Vui long nhap lua chon cua ban (1-5): ").strip()
-    
-    match choice:
-        # CHUC NANG 1: Hien thi danh sach
-        case '1':
-            if len(product_list) == 0:
-                print("Danh sach san pham hien dang trong.")
-            else:
-                print("Danh sach san pham hien tai:")
-                for index, product in enumerate(product_list, start=1):
-                    print(f"{index}. Ma SP: {product['product_id']} | Ten: {product['product_name']} | Gia: {product['price']} | So luong: {product['quantity']}")
 
-        # CHUC NANG 2: Them san pham moi
-        case '2':
-            new_id = input("Nhap ma san pham: ").strip().upper()
-            
-            is_exist = any(p["product_id"] == new_id for p in product_list)
-            if is_exist:
-                print("Ma san pham bi trung!")
-                continue
-                
-            new_name = input("Nhap ten san pham: ").strip()
-            
-            price_input = input("Nhap gia san pham: ").strip()
-            quantity_input = input("Nhap so luong san pham: ").strip()
-            
-            if not price_input.isdigit() or int(price_input) <= 0:
-                print("Gia/So luong khong hop le!")
-                continue
-                
-            if not quantity_input.isdigit() or int(quantity_input) <= 0:
-                print("Gia/So luong khong hop le!")
-                continue
-                
-            new_price = int(price_input)
-            new_quantity = int(quantity_input)
-                
-            new_product = {
-                "product_id": new_id,
-                "product_name": new_name,
-                "price": new_price,
-                "quantity": new_quantity
-            }
-            product_list.append(new_product)
-            print("Them san pham thanh cong")
+def validate_gender(gender_input):
+    gender = gender_input.strip().lower()
+    return gender in ["nam", "nu"]
 
-        # CHUC NANG 3: Cap nhat thong tin san pham
-        case '3':
-            update_id = input("Nhap ma san pham can cap nhat: ").strip().upper()
-            
-            product_found = None
-            for product in product_list:
-                if product["product_id"] == update_id:
-                    product_found = product
-                    break
-                    
-            if not product_found:
-                print("Khong tim thay ma san pham can cap nhat!")
-            else:
-                new_name = input(f"Nhap ten san pham moi (Hien tai: {product_found['product_name']}): ").strip()
-                
-                price_input = input(f"Nhap gia san pham moi (Hien tai: {product_found['price']}): ").strip()
-                quantity_input = input(f"Nhap so luong san pham moi (Hien tai: {product_found['quantity']}): ").strip()
-                
-                if not price_input.isdigit() or int(price_input) <= 0:
-                    print("Gia/So luong khong hop le!")
-                    continue
-                    
-                if not quantity_input.isdigit() or int(quantity_input) <= 0:
-                    print("Gia/So luong khong hop le!")
-                    continue
-                    
-                new_price = int(price_input)
-                new_quantity = int(quantity_input)
-                    
-                product_found["product_name"] = new_name
-                product_found["price"] = new_price
-                product_found["quantity"] = new_quantity
-                print("Cap nhat thong tin san pham thanh cong!")
 
-        # CHUC NANG 4: Xoa san pham
-        case '4':
-            delete_id = input("Nhap ma san pham can xoa: ").strip().upper()
-            
-            index_to_delete = -1
-            for i in range(len(product_list)):
-                if product_list[i]["product_id"] == delete_id:
-                    index_to_delete = i
-                    break
-                    
-            if index_to_delete == -1:
-                print("Khong tim thay ma san pham can xoa!")
-            else:
-                deleted_product = product_list.pop(index_to_delete)
-                print(f"Da xoa thanh cong san pham: {deleted_product['product_name']}")
+def find_patient_index(patient_list, patient_id):
+    patient_id = patient_id.strip().upper()
 
-        # CHUC NANG 5: Thoat chuong trinh
-        case '5':
-            print("Thoat chuong trinh.")
+    for index, patient in enumerate(patient_list):
+        if patient[0] == patient_id:
+            return index
+
+    return -1
+
+
+def display_patients(patient_list):
+    print("\n----- DANH SÁCH BỆNH NHÂN ĐANG ĐIỀU TRỊ -----")
+
+    if len(patient_list) == 0:
+        print("Hiện không có bệnh nhân nào đang điều trị.")
+        return
+
+    for index, patient in enumerate(patient_list, start=1):
+        print(
+            f"{index}. Mã: {patient[0]} | "
+            f"Tên: {patient[1]} | "
+            f"Giới tính: {patient[2]} | "
+            f"Bệnh: {patient[3]}"
+        )
+
+
+def add_patient(patient_list):
+    print("\n----- TIẾP NHẬN BỆNH NHÂN MỚI -----")
+
+    patient_id = input("Nhập mã bệnh nhân: ").strip().upper()
+
+    if len(patient_id) == 0:
+        print("Mã bệnh nhân không được để trống!")
+        return
+
+    if find_patient_index(patient_list, patient_id) != -1:
+        print("Mã bệnh nhân đã tồn tại trong hệ thống, vui lòng kiểm tra lại!")
+        return
+
+    patient_name = input("Nhập tên bệnh nhân: ").strip().title()
+
+    if len(patient_name) == 0:
+        print("Tên bệnh nhân không được để trống!")
+        return
+
+    while True:
+        gender_input = input("Nhập giới tính Nam/Nu: ")
+
+        if validate_gender(gender_input):
+            gender = gender_input.strip().title()
             break
-            
+
+        print("Giới tính không hợp lệ, vui lòng nhập lại!")
+
+    diagnosis = input("Nhập chẩn đoán bệnh: ").strip().capitalize()
+
+    new_patient = [
+        patient_id,
+        patient_name,
+        gender,
+        diagnosis
+    ]
+
+    patient_list.append(new_patient)
+
+    print("Tiếp nhận bệnh nhân thành công!")
+
+
+def update_diagnosis(patient_list):
+    print("\n----- CẬP NHẬT CHẨN ĐOÁN BỆNH -----")
+
+    patient_id = input("Nhập mã bệnh nhân cần cập nhật: ").strip().upper()
+
+    if len(patient_id) == 0:
+        print("Mã bệnh nhân không được để trống!")
+        return
+
+    patient_index = find_patient_index(patient_list, patient_id)
+
+    if patient_index == -1:
+        print(f"Không tìm thấy hồ sơ mang mã {patient_id}!")
+        return
+
+    print(f"Tìm thấy bệnh nhân: {patient_list[patient_index][1]}")
+    print(f"Chẩn đoán hiện tại: {patient_list[patient_index][3]}")
+
+    new_diagnosis = input("Nhập chẩn đoán mới: ").strip().capitalize()
+
+    if len(new_diagnosis) == 0:
+        print("Chẩn đoán bệnh không được để trống!")
+        return
+
+    patient_list[patient_index][3] = new_diagnosis
+
+    print("Cập nhật chẩn đoán bệnh thành công!")
+
+
+def search_by_disease(patient_list):
+    print("\n----- TÌM KIẾM BỆNH NHÂN THEO TÊN BỆNH -----")
+
+    keyword = input("Nhập từ khóa tên bệnh: ").strip()
+
+    if len(keyword) == 0:
+        print("Từ khóa tìm kiếm không được để trống!")
+        return
+
+    count = 0
+
+    print("\nKết quả tìm kiếm:")
+
+    for patient in patient_list:
+        if keyword.lower() in patient[3].lower():
+            count += 1
+
+            print(
+                f"{count}. Mã: {patient[0]} | "
+                f"Tên: {patient[1]} | "
+                f"Giới tính: {patient[2]} | "
+                f"Bệnh: {patient[3]}"
+            )
+
+    if count == 0:
+        print("Không tìm thấy bệnh nhân nào phù hợp.")
+
+    print(
+        f"\nCó tổng cộng {count} bệnh nhân mắc bệnh liên quan đến '{keyword}'."
+    )
+
+
+while True:
+    print("""
+===== HỆ THỐNG QUẢN LÝ BỆNH NHÂN RIKKEI =====
+1. Hiển thị danh sách bệnh nhân
+2. Tiếp nhận bệnh nhân mới
+3. Cập nhật chẩn đoán bệnh theo mã BN
+4. Tìm kiếm và thống kê theo tên bệnh
+5. Thoát chương trình
+===========================================
+""")
+
+    choice = input("Nhập lựa chọn của bạn: ").strip()
+
+    match choice:
+        case "1":
+            display_patients(patients)
+
+        case "2":
+            add_patient(patients)
+
+        case "3":
+            update_diagnosis(patients)
+
+        case "4":
+            search_by_disease(patients)
+
+        case "5":
+            print("Cảm ơn bác sĩ đã sử dụng hệ thống!")
+            break
+
         case _:
-            print("Lua chon khong hop le, vui long nhap lai!")
+            print("Lựa chọn không hợp lệ, vui lòng nhập số từ 1-5!")

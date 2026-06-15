@@ -63,7 +63,6 @@ def display_grades(records):
             f"DTB: {avg:.2f} - {rank}"
         )
 
-    print("---------------------------")
 
 
 def update_student_score(records):
@@ -100,9 +99,7 @@ def update_student_score(records):
             if 0 <= score <= 10:
                 break
 
-            print(
-                "Diem so khong hop le. Vui long nhap tu 0 den 10!"
-            )
+            print("Diem so khong hop le. Vui long nhap tu 0 den 10!")
 
         except ValueError:
             print("Vui long nhap dung dinh dang so!")
@@ -205,6 +202,4 @@ while True:
             break
 
         case _:
-            print(
-                "Lua chon khong hop le!"
-            )
+            print("Lua chon khong hop le!")
