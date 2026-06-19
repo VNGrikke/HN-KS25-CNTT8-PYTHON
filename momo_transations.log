@@ -1,0 +1,2 @@
+2026-06-19 07:52:55,387 - ERROR - [ERROR] - InvalidAmountError: Attempted to process -3333 VND.
+2026-06-19 07:53:05,331 - INFO - Deposit successful: +40000000 VND. Current Balance: 40000000
