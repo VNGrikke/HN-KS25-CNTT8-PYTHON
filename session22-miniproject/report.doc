@@ -1,0 +1,21 @@
+1. Sử dụng Conditional Breakpoint (Điểm dừng có điều kiện)
+
+Tại dòng code if distance >= 20: trong hàm get_shipping_rate. Chọn "Add Conditional Breakpoint" (Thêm điểm dừng có điều kiện) và nhập biểu thức điều kiện là: distance == 25.
+
+Quan sát biến base_rate qua bảng Variables:
+
+Trước khi chạy qua dòng base_rate = 10000: Biến base_rate có giá trị là 30000. Nguyên nhân là do ở luồng chạy này, tham số method được truyền vào là "express", nên chương trình gán base_rate = 30000.
+
+Sau khi chạy qua dòng base_rate = 10000: Giá trị của base_rate bị thay đổi thành 10000. Toàn bộ giá trị 30,000 trước đó đã bị ghi đè hoàn toàn.
+
+2. Debug luồng Logging
+
+Giải thích: Dòng log logger.info(...) ở đầu hàm không hiển thị ra Console vì trong hàm logging.basicConfig(), cấp độ log (level) đang được thiết lập là logging.WARNING. Theo cấu trúc phân cấp của thư viện logging trong Python (DEBUG < INFO < WARNING < ERROR < CRITICAL), hệ thống sẽ chỉ in ra màn hình các log từ mức độ WARNING trở lên. Các log ở mức INFO và DEBUG sẽ bị bỏ qua.
+
+Cách sửa: Để nhìn thấy dòng log này, cần sửa tham số level trong cấu hình thành level=logging.INFO hoặc level=logging.DEBUG.
+
+3. Báo cáo lỗi logic
+
+Vị trí lỗi: Lỗi nằm ở dòng base_rate = 10000 (bên trong khối lệnh if distance >= 20:).
+
+Giải thích nguyên nhân: Đây là lỗi sử dụng sai toán tử. Việc dùng toán tử gán = đã làm cho biến base_rate bị ghi đè thành 10,000, thay vì cộng dồn thêm phí phụ thu vào giá gốc. Để tính đúng tổng phí cơ sở và phí đường xa, lẽ ra phải dùng toán tử cộng dồn += (tức là base_rate = base_rate + 10000).

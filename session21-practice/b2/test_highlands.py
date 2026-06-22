@@ -1,6 +1,5 @@
 import unittest
 
-# Chỉ import các hàm logic và exception từ pos_logic.py
 from pos_logic import (
     calculate_total, 
     process_add_to_order, 
