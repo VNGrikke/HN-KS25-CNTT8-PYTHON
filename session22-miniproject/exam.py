@@ -1,7 +1,8 @@
 import logging
-# Cấu hình logging hệ thống
+
+# 1. Sửa lỗi Logging: Thay đổi level thành logging.INFO để hiển thị luồng chạy bình thường
 logging.basicConfig(
-    level=logging.WARNING, # CHÚ Ý: Mức độ log hiện tại của hệ thống
+    level=logging.INFO,
     format="%(levelname)s: %(message)s"
 )
 logger = logging.getLogger(__name__)
@@ -10,10 +11,10 @@ def get_shipping_rate(method: str, distance: int) -> float:
     """Trả về chi phí vận chuyển cơ sở dựa trên phương thức và khoảng cách"""
     logger.info(f"Đang tính phí giao hàng cho phương thức {method} với khoảng cách {distance} km")
     
+    # 2. Xử lý ngoại lệ chặt chẽ (Clean Code): Ném ra lỗi ValueError thay vì return 0.0
     if distance <= 0:
-        # LOI RUNTIME: Thiếu raise lỗi, chỉ ghi log rồi trả về 0.0 là sai nghiệp vụ
         logger.error("Khoảng cách vận chuyển không được nhỏ hơn hoặc bằng 0")
-        return 0.0
+        raise ValueError("Distance must be positive")
 
     # Xác định phí cơ sở theo phương thức vận chuyển
     if method == "standard":
@@ -26,9 +27,9 @@ def get_shipping_rate(method: str, distance: int) -> float:
         base_rate = 20000
         
     # Phụ thu đường xa nếu khoảng cách từ 20km trở lên
-    # LOI LOGIC: Lập trình viên vô tình viết sai công thức tính giá trị cộng dồn
+    # 3. Sửa lỗi Logic: Sử dụng toán tử cộng dồn (+=) để thêm phí phụ thu
     if distance >= 20:
-        base_rate = 10000 # Đúng ra phải là cộng thêm vào phí hiện tại: base_rate += 10000
+        base_rate += 10000
         
     return base_rate
 
@@ -45,7 +46,12 @@ def calculate_final_shipping(weight: float, distance: int, method: str) -> float
     logger.warning(f"Kết quả: Tổng phí vận chuyển = {total_cost}")
     return total_cost
 
-# Khúc code chạy thử của Intern (Sinh viên dùng IDE Debugger để quét qua các dòng này)
 if __name__ == "__main__":
-    calculate_final_shipping(3.5, 25, "express")   # Case kiểm tra lỗi logic biên (đường xa)
-    calculate_final_shipping(2.0, -5, "standard")  # Case kiểm tra lỗi dữ liệu đầu vào
+    try:
+        # Case kiểm tra lỗi logic biên (đường xa) -> Output kỳ vọng: 30000 + 10000 + (3.5 * 2000) = 47000
+        calculate_final_shipping(3.5, 25, "express") 
+        
+        # Case kiểm tra lỗi dữ liệu đầu vào -> Sẽ văng ra ValueError và bị bắt bởi khối try-except
+        calculate_final_shipping(2.0, -5, "standard") 
+    except Exception as e:
+        logger.error(f"Đã xảy ra lỗi: {e}")
