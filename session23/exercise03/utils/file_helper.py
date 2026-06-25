@@ -1,55 +1,36 @@
-from datetime import (
-    datetime,
-    timedelta
-)
+import os
 
 
-def calculate_eta(flight_list):
+def create_log_folder():
 
     print(
-        "----- TÍNH TOÁN THỜI GIAN "
-        "HẠ CÁNH (ETA) -----"
+        "----- KHỞI TẠO THƯ MỤC "
+        "HỆ THỐNG -----"
     )
 
-    flight_id = input(
-        "Nhập mã chuyến bay cần tính: "
-    ).strip().upper()
+    folder_name = "aviation_logs"
 
-    for flight in flight_list:
+    if not os.path.exists(
+        folder_name
+    ):
 
-        if flight["flight_id"] == flight_id:
+        print(
+            "[SYSTEM] Thư mục "
+            "'aviation_logs' "
+            "chưa tồn tại. "
+            "Đang tiến hành khởi tạo..."
+        )
 
-            departure_time = (
-                datetime.strptime(
-                    flight["depart_time"],
-                    "%Y-%m-%d %H:%M:%S"
-                )
-            )
+        os.mkdir(folder_name)
 
-            eta = (
-                departure_time
-                + timedelta(
-                    minutes=flight[
-                        "duration_min"
-                    ]
-                )
-            )
+        print(
+            "[SYSTEM] Tạo thư mục "
+            "thành công!"
+        )
 
-            print(
-                f"-> Chuyến bay "
-                f"{flight_id} "
-                f"cất cánh lúc: "
-                f"{flight['depart_time']}"
-            )
+    else:
 
-            print(
-                f"-> Thời gian hạ cánh "
-                f"dự kiến (ETA): "
-                f"{eta.strftime('%Y-%m-%d %H:%M:%S')}"
-            )
-
-            return
-
-    print(
-        "Không tìm thấy chuyến bay!"
-    )
+        print(
+            "Thư mục đã tồn tại, "
+            "bỏ qua bước khởi tạo"
+        )
