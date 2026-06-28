@@ -1,14 +1,35 @@
-delivery_orders = ["GE001", "GE002", "GE003-CANCEL"]
+# Lớp cha: Nhân vật cơ bản
+class Character:
+    def __init__(self, name, hp, attack_power):
+        self.name = name
+        self.hp = hp
+        self.attack_power = attack_power
 
-delivery_orders.append("GE004")
 
-delivery_orders.insert(0, "GE000")
+# Lớp con: Chiến binh
+class Warrior(Character):
+    def __init__(self, name, hp, attack_power, bonus_armor):
+        # Gọi constructor của lớp cha
+        super().__init__(name, hp, attack_power)
+        self.bonus_armor = bonus_armor
 
-delivery_orders[2] = "GE002-UPDATE"
+    # Tính tổng sức mạnh
+    def get_total_power(self):
+        return self.attack_power + self.bonus_armor
 
-delivery_orders.remove("GE003-CANCEL")
+    # Nạp chồng toán tử >
+    def __gt__(self, other):
+        return self.get_total_power() > other.get_total_power()
 
-transferred_order = delivery_orders.pop()
 
-print(delivery_orders)
-print(transferred_order)
+# ----- Chương trình -----
+
+w1 = Warrior("Arthur", 1000, 150, 50)
+w2 = Warrior("Lancelot", 900, 180, 10)
+
+print(f"Chiến binh {w1.name} xuất trận!")
+
+if w1 > w2:
+    print(f"{w1.name} mạnh hơn {w2.name}!")
+else:
+    print(f"{w2.name} mạnh hơn hoặc hòa!")

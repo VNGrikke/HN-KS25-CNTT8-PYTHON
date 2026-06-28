@@ -80,9 +80,6 @@ class MemberCard:
             print(f"Hạng thẻ hiện tại: {self.__tier}")
 
 
-# ==========================================
-# HỆ THỐNG MENU (MAIN FLOW)
-# ==========================================
 
 def get_card_by_id(cards_list, card_id):
     """Hàm tiện ích giúp tìm thẻ trong Database"""
