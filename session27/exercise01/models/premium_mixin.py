@@ -16,7 +16,7 @@ class DigitalPremiumMixin:
 
             print(
                 f"[Ưu đãi Premium]: Bạn được hoàn tiền "
-                f"1% ({cashback:,.0f} VND) vào tài khoản!"
+                f"1% ({cashback:,.0f} VND) vào tài khoản!"      
             )
 
             return cashback

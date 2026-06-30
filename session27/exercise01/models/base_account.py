@@ -77,6 +77,6 @@ class BaseAccount(ABC):
         return (
             f"Ngân hàng      : {self.bank_name}\n"
             f"Số tài khoản   : {self.account_number}\n"
-            f"Chủ tài khoản  : {self.owner_name}\n"
+            f"Chủ tài khoản  : {self.owner_name}\n" 
             f"Số dư          : {self.balance:,.0f} VND"
         )

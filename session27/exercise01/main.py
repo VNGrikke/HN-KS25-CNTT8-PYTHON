@@ -47,7 +47,7 @@ def menu():
         match ch:
 
             case "1":
-                t = input("1.Savings 2.Credit 3.Hybrid: ")
+                t = input("1.Savings \n2.Credit \n3.Hybrid: ")
                 acc_no = input("Số TK: ")
 
                 if not BaseAccount.validate_account_number(acc_no):
@@ -92,7 +92,7 @@ def menu():
                 if not acc:
                     continue
 
-                op = input("1.Nạp 2.Rút: ")
+                op = input("1.Nạp \n2.Rút: ")
                 amount = float(input("Số tiền: "))
 
                 match op:
@@ -131,7 +131,7 @@ def menu():
                 if not acc:
                     continue
 
-                gateway_choice = input("1.VNPay 2.Viettel Money: ")
+                gateway_choice = input("1.VNPay \n2.Viettel Money: ")
 
                 match gateway_choice:
                     case "1":
